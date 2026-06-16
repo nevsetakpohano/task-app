@@ -1,5 +1,3 @@
-// CRUD create read update delete
-
 const { MongoClient, ObjectId } = require('mongodb')
 
 const connectionURL = 'mongodb://127.0.0.1:27017'
@@ -9,13 +7,11 @@ async function main() {
     const client = new MongoClient(connectionURL)
 
     try {
-        // Connect the client to the server
         await client.connect()
         console.log('Connected successfully to database!')
 
         const db = client.db(databaseName)
         
-        // 1. Insert sample tasks (creates the 'tasks' collection)
         const tasksCollection = db.collection('tasks')
         const insertTasks = await tasksCollection.insertMany([
             {
@@ -33,7 +29,6 @@ async function main() {
         ])
         console.log('Inserted tasks:', insertTasks.insertedIds)
 
-        // 2. Insert sample users (creates the 'users' collection)
         const usersCollection = db.collection('users')
         const insertUsers = await usersCollection.insertMany([
             {
@@ -47,7 +42,6 @@ async function main() {
         ])
         console.log('Inserted users:', insertUsers.insertedIds)
 
-        // 3. Delete a task (original logic from the delete lesson)
         const deleteResult = await tasksCollection.deleteOne({
             description: 'Clean the house'
         })
@@ -56,7 +50,6 @@ async function main() {
     } catch (error) {
         console.log('Unable to connect to database!', error)
     } finally {
-        // Close the connection
         await client.close()
     }
 }
